@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+    <title>balança</title>
+</head>
+<script>
+    function updateIdade() {
+        $("#idade").text($("#rangeIdade").val())
+    }
+    function load() {
+        playPause();
+        $("#ranIdade").hide();
+        $("#ranSexo").hide();
+        $(".color-overlay").css('opacity', '0.3');
+        $("#container-pular").show();
+    }
+    function resultado() {
+        $.ajax({
+            type: 'GET',
+            url: 'http://example/functions.php',
+            /*data: { get_param: 'value' },*/
+            dataType: 'json',
+            success: function (data) {
+               /* $.each(data, function (index, element) {
+                    $('body').append($('<div>', {
+                        text: element.name
+                    }));
+                });*/
+                console.log(data);
+            }
+        });
+        playPause();
+        $("#ranIdade").hide();
+        $("#ranSexo").hide();
+        $(".color-overlay").css('opacity', '1');
+        $("#container-pular").hide();
+        $("#resultado").show();
+    }
+    function playPause() {
+        var myVideo = document.getElementById("myVideo");
+        if (myVideo.paused)
+            myVideo.play();
+        else
+            myVideo.pause();
+    } 
+</script>
+
+<body>
+
+    <div class="section">
+
+        <div id="container-idade">
+            <div id="ranIdade">
+                <label for="rangeIdade">Qual sua Idade ?</label>
+                <input type="range" class="custom-range" min="0" max="100" step="1" id="rangeIdade"
+                    onchange="updateIdade()">
+                <label id="idade">0</label>
+            </div>
+            <div id="ranSexo">
+                <label for="sexo">Qual seu sexo ?</label>
+                <div class="btn-group btn-group-toggle " data-toggle="buttons" style="width: 100%;">
+                    <button type="button" class="btn btn-primary" onclick="load()">
+                        Masculino
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="load()">
+                        Feminino
+                    </button>
+                </div>
+            </div>
+            <div id="resultado">
+                <div id="resIdade">
+                    <label>Idade:</label>
+                </div>
+                <div id="resAltura">
+                    <label>Altura:</label>
+                </div>
+                <div id="resPeso">
+                    <label>Peso:</label>
+                </div>
+                <div id="resIMC">
+                    <label>IMC:</label>
+                </div>
+            </div>
+            <div id="container-pular">
+                <button type="button" class="btn btn-primary" onclick="resultado()">
+                    Pular Anuncio
+                </button>
+            </div>
+        </div>
+
+        <div class="video-container">
+            <div class="color-overlay">
+
+            </div>
+            <video id="myVideo">
+                <source src="video.mp4" type="video/mp4">
+            </video>
+        </div>
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#container-pular").hide();
+            $("#resultado").hide();
+        });
+    </script>
+</body>
+
+</html>
